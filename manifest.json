@@ -1,0 +1,21 @@
+{
+  "name": "PAWNITOR",
+  "short_name": "PAWNITOR",
+  "description": "Your pet's health, always in good paws.",
+  "start_url": "/PAWNITOR-/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
