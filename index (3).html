@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAWNITOR Final Web App</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#D97706">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="PAWNITOR">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}:root{--amber:#D97706;--orange:#EA580C;--cream:#FAF6EE;--dark:#4A2C1A;--brown:#6B4423;--text:#1A1208;--muted:#6B5B3E;--line:#E8DFD0;--white:#fff;--green:#059669;--red:#DC2626;--blue:#2563EB;--shadow:0 10px 30px rgba(74,44,26,.12)}body{font-family:Inter,Arial,sans-serif;background:#FAFAF8;color:var(--text)}h1,h2,h3{font-family:Sora,Inter,sans-serif}.hide{display:none!important}.btn{border:0;border-radius:12px;padding:.8rem 1.2rem;font-weight:700;cursor:pointer;transition:.2s}.btn-primary{background:linear-gradient(135deg,var(--amber),var(--orange));color:#fff}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(217,119,6,.25)}.btn-secondary{background:#fff;color:var(--dark);border:1px solid var(--line)}.badge{display:inline-block;border-radius:999px;padding:.25rem .65rem;font-size:.75rem;font-weight:700}.green{background:#ECFDF5;color:var(--green)}.amber{background:#FEF3C7;color:#B45309}.blue{background:#EFF6FF;color:var(--blue)}.red{background:#FEF2F2;color:var(--red)}
+/* Landing */.landing-nav{background:#fff;padding:1.1rem 5%;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.05);position:sticky;top:0;z-index:10}.logo{font-size:1.7rem;font-weight:800;color:var(--amber);text-decoration:none}.nav-links{display:flex;gap:2rem;list-style:none}.nav-links a{text-decoration:none;color:#555;font-weight:600}.hero{background:linear-gradient(135deg,#6B4423,#4A2C1A);color:#fff;min-height:78vh;padding:5rem 5%;display:flex;align-items:center;justify-content:center;text-align:center}.hero h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.12;margin:1rem 0}.hero p{max-width:720px;margin:0 auto 2rem;font-size:1.15rem;color:#fff7ed}.hero-tag{display:inline-block;background:rgba(255,255,255,.16);padding:.45rem 1rem;border-radius:999px;font-weight:700}.hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}.section{padding:4.5rem 5%}.cream{background:var(--cream)}.center{text-align:center}.pet-card-demo{background:#fff;border-radius:22px;padding:2rem;max-width:420px;margin:2rem auto;box-shadow:var(--shadow)}.pet-emoji{font-size:4rem}.pet-name{font-size:1.7rem;font-weight:800;color:var(--brown)}.row{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid #eee}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;max-width:1120px;margin:2rem auto}.feature-card,.price-card{background:#fff;border-radius:18px;padding:1.6rem;box-shadow:0 5px 18px rgba(0,0,0,.07)}.feature-icon{font-size:2.1rem}.price-card.popular{background:linear-gradient(135deg,var(--brown),var(--dark));color:#fff;transform:scale(1.03)}footer{background:var(--dark);color:#fff;text-align:center;padding:2.5rem}
+/* Auth */#auth{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}.auth-left{background:linear-gradient(135deg,#351809,#4A2C1A);color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:2rem}.auth-logo{font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:1.5rem}.auth-pet{width:245px;height:245px;border-radius:50%;object-fit:cover;border:5px solid #9A4F22;box-shadow:0 18px 40px rgba(0,0,0,.35)}.auth-left h2{font-size:2rem;margin:1.5rem 0 .7rem}.auth-left span{color:#FF6B35}.auth-right{background:#F6EEDB;display:flex;align-items:center;justify-content:center;padding:2rem}.auth-card{width:100%;max-width:440px}.auth-card h2{font-size:2rem}.auth-tabs{display:grid;grid-template-columns:1fr 1fr;background:#EDE3D1;padding:4px;border-radius:14px;margin:1.5rem 0}.auth-tab{border:0;background:transparent;border-radius:12px;padding:.8rem;font-weight:800;cursor:pointer}.auth-tab.active{background:#fff}.field{height:48px;border:1px solid #E1CDB7;background:#fff;border-radius:13px;margin:.8rem 0;display:flex;align-items:center;padding:0 .9rem;gap:.6rem}.field input{border:0;outline:0;flex:1;font:inherit;background:transparent}.socials{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1rem}.demo-btn{width:100%;margin-top:1rem;background:transparent;border:1.5px dashed #FFB08E;color:#EA580C}
+/* App */#appnav{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 1.2rem;position:sticky;top:0;z-index:9}.tabs{display:flex;gap:.25rem;overflow:auto}.tab{background:transparent;border:0;border-radius:10px;padding:.55rem .8rem;font-weight:700;color:var(--muted);cursor:pointer}.tab.active{background:#FEF3C7;color:#B45309}.page{display:none;max-width:1100px;margin:0 auto;padding:1.5rem}.page.active{display:block}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:1.25rem;box-shadow:0 1px 10px rgba(74,44,26,.06)}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.muted{color:#8a7a63;font-size:.9rem}.pet-avatar{width:58px;height:58px;border-radius:50%;background:#FEF3C7;display:flex;align-items:center;justify-content:center;font-size:1.8rem}.quick{cursor:pointer;text-align:center}.chatbox{height:350px;background:#F5F1EA;border-radius:16px;padding:1rem;overflow:auto}.msg{margin:.5rem 0;max-width:75%;padding:.75rem;border-radius:15px;background:#fff}.msg.user{margin-left:auto;background:linear-gradient(135deg,var(--amber),var(--orange));color:#fff}.inputline{display:flex;gap:.5rem;margin-top:.7rem}.inputline input,.card input,.card select,.card textarea{width:100%;padding:.75rem;border:1px solid #D4C9B5;border-radius:10px}.map{height:260px;background:linear-gradient(135deg,#ECFDF5,#EFF6FF);border-radius:18px;display:flex;align-items:center;justify-content:center;text-align:center}.theme.dark{background:#1f160f;color:#fff}.theme.dark .card,.theme.dark #appnav{background:#2c2018;color:#fff;border-color:#493426}.theme.dark .muted{color:#d6c6b5}@media(max-width:850px){#auth{grid-template-columns:1fr}.auth-left{min-height:45vh}.nav-links,.tabs{display:none}.grid2,.grid3{grid-template-columns:1fr}.hero-buttons{flex-direction:column}.price-card.popular{transform:none}}
+
+/* FINAL TAGLINE FIX - same as footer */
+.auth-tagline .wag-footer-color{color:#D97706 !important;font-weight:700 !important;}
+.auth-tagline .purr-footer-color{color:#F59E0B !important;font-weight:700 !important;}
+
+/* Social Login Modals */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:999;display:flex;align-items:center;justify-content:center}
+.modal-box{background:#fff;border-radius:20px;padding:2rem;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative;animation:popIn .2s ease}
+@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:#888}
+.modal-logo{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem}
+.modal-logo span{font-size:1.2rem;font-weight:800}
+.modal-field{width:100%;padding:.75rem 1rem;border:1px solid #ddd;border-radius:10px;margin:.4rem 0;font-size:1rem;font-family:inherit;outline:none}
+.modal-field:focus{border-color:#4285F4}
+.modal-submit{width:100%;padding:.85rem;border:none;border-radius:10px;font-size:1rem;font-weight:700;color:#fff;cursor:pointer;margin-top:.6rem}
+.modal-divider{text-align:center;color:#aaa;font-size:.85rem;margin:.8rem 0}
+.modal-footer{text-align:center;font-size:.8rem;color:#aaa;margin-top:1rem}
+
+/* Contact & Terms Modals */
+.modal-box.wide{max-width:460px}
+.terms-body{max-height:260px;overflow-y:auto;font-size:.85rem;color:#555;line-height:1.7;margin:1rem 0;padding-right:.5rem}
+.terms-body h4{color:#333;margin:.8rem 0 .3rem}
+.link-row{display:flex;gap:1rem;justify-content:center;margin-top:.8rem}
+.link-btn{background:none;border:none;color:#EA580C;font-size:.82rem;font-weight:600;cursor:pointer;text-decoration:underline;padding:0}
+</style></head><body>
+<div id="landing">
+<nav class="landing-nav"><a class="logo" href="#">🐾 PAWNITOR</a><ul class="nav-links"><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#">For Vets</a></li></ul><button class="btn btn-primary" onclick="goAuth()">Get Started Free</button></nav>
+<section class="hero"><div><div class="hero-tag">Built for Filipino pet owners</div><h1>Your pet's health,<br>always in good paws.</h1><p>PAWNITOR keeps pet care simple, organized, and accessible for Filipino pet owners by combining health records, guided PetBot support, symptom checking, reminders, and learning tools in one easy-to-use platform.</p><div class="hero-buttons"><button class="btn btn-primary" onclick="goAuth()">Get Started</button><button class="btn btn-secondary" onclick="document.getElementById('features').scrollIntoView()">See How It Works ↗</button></div></div></section>
+<section class="section cream center"><div class="pet-card-demo"><div class="pet-emoji">🐰</div><div class="pet-name">Mochi</div><p class="muted">Holland Lop, 2 yrs old</p><div class="row"><span>Overall Health</span><b style="color:var(--amber)">92%</b></div><div class="row"><span>Next Vaccine</span><b style="color:var(--amber)">14 days</b></div><div class="row"><span>Vet Visit</span><b style="color:var(--green)">Done ✓</b></div></div></section>
+<section class="section center"><h2>🤖 PetBot is ready!</h2><p class="muted">Works for all kinds of pets</p><div class="grid"><div class="feature-card">🐕<h3>Dogs</h3></div><div class="feature-card">🐈<h3>Cats</h3></div><div class="feature-card">🐰<h3>Rabbits</h3></div><div class="feature-card">🦜<h3>Birds</h3></div><div class="feature-card">🐠<h3>Fish</h3></div><div class="feature-card">🦎<h3>Reptiles</h3></div></div></section>
+<section class="section cream" id="features"><h2 class="center">Core Features</h2><p class="center muted">Everything your pet needs, all in one place.</p><div class="grid"><div class="feature-card"><div class="feature-icon">📋</div><h3>Digital Health Vault</h3><p>Store medical history, vaccines, and vet records.</p></div><div class="feature-card"><div class="feature-icon">🤖</div><h3>PetBot AI Assistant</h3><p>Chat for pet care tips, nutrition, grooming, and behavior support.</p></div><div class="feature-card"><div class="feature-icon">🔍</div><h3>Smart Symptom Checker</h3><p>Answer guided symptom questions to check urgency and next steps.</p></div><div class="feature-card"><div class="feature-icon">📅</div><h3>Appointments Hub</h3><p>Schedule vet visits and medication reminders.</p></div><div class="feature-card"><div class="feature-icon">🎮</div><h3>Learn & Play</h3><p>Trivia, facts, training guides, and mini games.</p></div><div class="feature-card"><div class="feature-icon">🗺️</div><h3>Vet Locator</h3><p>Find nearby clinics, services, and directions.</p></div></div></section>
+<section class="section center" id="pricing"><h2>Pricing</h2><p class="muted">Start free and upgrade when ready.</p><div class="grid"><div class="price-card"><h3>Free</h3><h2>₱0</h2><p>1 pet only</p><button class="btn btn-primary" onclick="goAuth()">Get Started</button></div><div class="price-card popular"><h3>Plus</h3><h2>₱99</h2><p>up to 3 pets</p><button class="btn btn-primary" onclick="goAuth()">Start Free Trial</button></div><div class="price-card"><h3>Pro</h3><h2>₱199</h2><p>unlimited pets</p><button class="btn btn-primary" onclick="goAuth()">Get Pro</button></div></div></section><section class="section cream center"><h2>Ready to give your pet the best care?</h2><p>Join Filipino pet owners with dogs, cats, rabbits, birds, fish, and reptiles.</p><button class="btn btn-primary" onclick="goAuth()">Get PAWNITOR for Free</button></section><footer><h3>🐾 PAWNITOR</h3><p>Keeping Tabs on Every <b style="color:#D97706">Wag</b> and <b style="color:#F59E0B">Purr</b></p><p>© 2026 PAWNITOR</p></footer></div>
+<div id="auth" class="hide"><div class="auth-left"><div class="auth-logo">🐾 PAWNITOR</div><div class="auth-pet" style="display:flex;align-items:center;justify-content:center;background:#FDE68A;font-size:6rem">🐶</div><h2>Keeping Tabs on Every<br><span class="wag-footer-color" style="color:#D97706 !important;font-weight:700 !important;">Wag</span> and <span class="purr-footer-color" style="color:#F59E0B !important;font-weight:700 !important;">Purr</span></h2><p>Your complete digital companion for pet wellness.</p></div><div class="auth-right"><div class="auth-card"><h2>Welcome back!</h2><p class="muted">Sign in to continue caring for your furry family.</p><div class="auth-tabs"><button class="auth-tab active" onclick="toggleAuth('login')">Sign In</button><button class="auth-tab" onclick="toggleAuth('signup')">Create Account</button></div><div id="loginForm"><div class="field">✉️<input id="loginEmail" placeholder="Email address"></div><div class="field">🔒<input id="loginPass" type="password" placeholder="Password"><button onclick="showPass('loginPass')">👁️</button></div><button class="btn btn-primary" style="width:100%" onclick="login()">Sign In</button><div class="socials"><button class="btn btn-secondary" onclick="openGoogleModal()" style="display:flex;align-items:center;justify-content:center;gap:.5rem"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Google</button><button class="btn" onclick="openFbModal()" style="background:#1877F2;color:#fff;display:flex;align-items:center;justify-content:center;gap:.5rem"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg> Facebook</button></div>
+<div class="link-row">
+  <button class="link-btn" onclick="openContactModal()">Contact Us</button>
+  <span style="color:#ccc;font-size:.8rem">|</span>
+  <button class="link-btn" onclick="openTermsModal()">Terms &amp; Conditions</button>
+</div>
+
+</div><div id="signupForm" class="hide"><div class="field">👤<input id="signupName" placeholder="Full name"></div><div class="field">✉️<input id="signupEmail" placeholder="Email address"></div><div class="field">🔒<input id="signupPass" type="password" placeholder="Password"></div><div class="field">🔒<input id="signupConfirm" type="password" placeholder="Confirm password"></div><button class="btn btn-primary" style="width:100%" onclick="signup()">Create Account</button></div></div></div></div>
+<div id="mainApp" class="hide"><nav id="appnav"><div class="logo">🐾 PAWNITOR</div><div class="tabs" id="tabs"></div><button class="btn btn-secondary" onclick="logout()">Logout</button></nav><div id="pages"></div></div>
+<script>
+// Explicit element references
+const landing = document.getElementById('landing');
+const auth = document.getElementById('auth');
+const mainApp = document.getElementById('mainApp');
+const loginEmail = document.getElementById('loginEmail');
+const loginPass = document.getElementById('loginPass');
+const signupName = document.getElementById('signupName');
+const signupEmail = document.getElementById('signupEmail');
+const signupPass = document.getElementById('signupPass');
+const signupConfirm = document.getElementById('signupConfirm');
+const loginForm = document.getElementById('loginForm');
+const signupForm = document.getElementById('signupForm');
+const tabs = document.getElementById('tabs');
+const pages = document.getElementById('pages');
+let isAdmin=false;
+const pets=[{name:'Mochi',emoji:'🐰',breed:'Holland Lop',age:'2 years',health:92},{name:'Bruno',emoji:'🐕',breed:'Aspin',age:'4 years',health:78}];
+const pageNames=['dashboard','profile','wellness','learn','petbot','vetlocator','admin','settings'];
+const labels=['Home','Pet Profile','Wellness Hub','Learn & Play','AI Assistant','Vet Locator','Admin','Settings'];
+function goAuth(){landing.classList.add('hide');auth.classList.remove('hide');scrollTo(0,0)}
+function enterApp(){landing.classList.add('hide');auth.classList.add('hide');mainApp.classList.remove('hide');renderApp();showPage('dashboard')}
+function toggleAuth(t){loginForm.classList.toggle('hide',t!=='login');signupForm.classList.toggle('hide',t!=='signup');document.querySelectorAll('.auth-tab').forEach((b,i)=>b.classList.toggle('active',(t==='login'&&i==0)||(t==='signup'&&i==1)))}
+function showPass(id){let x=document.getElementById(id);x.type=x.type==='password'?'text':'password'}
+function signup(){if(!signupName.value||!signupEmail.value||!signupPass.value)return alert('Please fill all fields.');if(signupPass.value!==signupConfirm.value)return alert('Passwords do not match.');localStorage.setItem('pawnitorUser',JSON.stringify({name:signupName.value,email:signupEmail.value,pass:signupPass.value}));alert('Account created! Please sign in.');toggleAuth('login')}
+function login(){let u=JSON.parse(localStorage.getItem('pawnitorUser')||'null');if(loginEmail.value==='admin@pawnitor.com'&&loginPass.value==='admin123'){isAdmin=true;localStorage.setItem('pawnitorCurrent','admin@pawnitor.com');enterApp();}else if((loginEmail.value==='demo@pawnitor.com'&&loginPass.value==='1234')||(u&&u.email===loginEmail.value&&u.pass===loginPass.value)){isAdmin=false;localStorage.setItem('pawnitorCurrent',loginEmail.value||'demo@pawnitor.com');enterApp()}else alert('Wrong email or password. Please try again.')}
+function demoLogin(){isAdmin=false;localStorage.setItem('pawnitorCurrent','demo@pawnitor.com');enterApp()}function logout(){localStorage.removeItem('pawnitorCurrent');mainApp.classList.add('hide');landing.classList.remove('hide');scrollTo(0,0)}
+function renderApp(){const visiblePages=isAdmin?pageNames:pageNames.filter(p=>p!=='admin');const visibleLabels=isAdmin?labels:labels.filter((_,i)=>pageNames[i]!=='admin');tabs.innerHTML=visiblePages.map((p,i)=>`<button class="tab" onclick="showPage('${p}')">${visibleLabels[i]}</button>`).join('');pages.innerHTML=`
+<div class="page" id="page-dashboard"><h2>Good morning, Irish 👋</h2><p class="muted">Here's how your pets are doing today.</p><div class="grid2" style="margin-top:1rem">${pets.map(p=>`<div class="card"><div style="display:flex;gap:1rem;align-items:center"><div class="pet-avatar">${p.emoji}</div><div><h3>${p.name}</h3><p class="muted">${p.breed}, ${p.age}</p><span class="badge ${p.health>80?'green':'amber'}">${p.health>80?'Healthy':'Needs attention'}</span></div><h2 style="margin-left:auto;color:var(--amber)">${p.health}%</h2></div></div>`).join('')}</div><h3 style="margin-top:1.5rem">Quick Actions</h3><div class="grid3" style="margin-top:1rem"><div class="card quick" onclick="showPage('wellness')">🔍<h3>Symptom Checker</h3></div><div class="card quick" onclick="showPage('petbot')">🤖<h3>AI Chat</h3></div><div class="card quick" onclick="showPage('vetlocator')">🗺️<h3>Vet Locator</h3></div></div><div class="card" style="margin-top:1rem"><h3>Upcoming Reminders</h3><div class="row"><span>Bruno deworming</span><span class="badge amber">May 5</span></div><div class="row"><span>Mochi vaccine booster</span><span class="badge blue">14 days</span></div></div></div>
+<div class="page" id="page-profile"><h2>Pet Profile Module</h2><p class="muted">Manage pet identity, breed info, records, and history.</p><div class="grid2" style="margin-top:1rem"><div class="card"><h3>Profile Editor</h3><input value="Mochi"><input value="Rabbit"><input value="Holland Lop"><input value="1.8 kg"><button class="btn btn-primary" onclick="alert('✅ Profile saved successfully!')">Save Profile</button></div><div class="card"><h3>Breed Info Panel</h3><p>Holland Lop rabbits are friendly, calm, and social.</p><p class="muted">Risks: dental overgrowth, ear infections, digestive issues.</p></div><div class="card"><h3>Medical Records Vault</h3><p class="muted">Vaccines, lab results, vet documents.</p><button class="btn btn-secondary" onclick="document.getElementById('uploadRecordModal').classList.remove('hide')">Upload Record</button></div><div class="card"><h3>History Tracker</h3><div class="row"><span>Vaccination completed</span><span>Nov 15</span></div><div class="row"><span>Wellness check-up</span><span>Dec 10</span></div></div></div></div>
+<div class="page" id="page-wellness"><h2>Wellness Hub</h2><p class="muted">Track symptoms, medications, vitamins, and vaccines.</p>
+<div class="grid3" style="margin-top:1rem">
+  <div class="card">🔍<h3>Symptom Checker</h3><p class="muted">Answer guided questions to check urgency.</p><button class="btn btn-primary" onclick="document.getElementById('symptomCheckerModal').classList.remove('hide')">Open</button></div>
+  <div class="card">💊<h3>Medication Tracker</h3><p class="muted">Dosage, schedule, completion toggle.</p><button class="btn btn-secondary" onclick="document.getElementById('addMedModal').classList.remove('hide')">+ Add Medication</button></div>
+  <div class="card">💉<h3>Vaccination Reminders</h3><p class="muted">Calendar-linked countdowns.</p><button class="btn btn-secondary" onclick="document.getElementById('vaccineModal').classList.remove('hide')">View Calendar</button></div>
+</div>
+<div class="card" style="margin-top:1rem"><h3>Medication Schedule</h3>
+  <div class="row"><span>Bruno — Vitamins</span><span class="badge green">Taken</span></div>
+  <div class="row"><span>Mochi — Supplement</span><span class="badge amber">Due tonight</span></div>
+</div></div>
+<div class="page" id="page-learn">
+<h2>Learn & Play Zone</h2>
+<p class="muted">Test your pet knowledge and have fun!</p>
+
+<!-- Game selector cards -->
+<div class="grid3" style="margin-top:1rem" id="gameMenu">
+  <div class="card" style="text-align:center;cursor:pointer" onclick="startTrivia()">
+    <div style="font-size:2.5rem">🧠</div>
+    <h3>Pet Trivia</h3>
+    <p class="muted">10 questions about pets</p>
+    <button class="btn btn-primary" style="margin-top:.8rem">Play Now</button>
+  </div>
+  <div class="card" style="text-align:center;cursor:pointer" onclick="startGuessBreed()">
+    <div style="font-size:2.5rem">🐾</div>
+    <h3>Guess the Breed</h3>
+    <p class="muted">Identify the pet breed</p>
+    <button class="btn btn-primary" style="margin-top:.8rem">Play Now</button>
+  </div>
+  <div class="card" style="text-align:center;cursor:pointer" onclick="startMatchSymptom()">
+    <div style="font-size:2.5rem">🔍</div>
+    <h3>Match the Symptom</h3>
+    <p class="muted">Match symptoms to conditions</p>
+    <button class="btn btn-primary" style="margin-top:.8rem">Play Now</button>
+  </div>
+</div>
+
+<!-- TRIVIA GAME -->
+<div id="triviaGame" class="card hide" style="margin-top:1.5rem;max-width:620px;margin-left:auto;margin-right:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h3>🧠 Pet Trivia</h3>
+    <button class="btn btn-secondary" onclick="closeGame('triviaGame')" style="padding:.4rem .8rem;font-size:.8rem">✕ Close</button>
+  </div>
+  <div id="triviaProgress" class="muted" style="margin:.5rem 0;font-size:.85rem"></div>
+  <div id="triviaScore" class="muted" style="font-size:.85rem"></div>
+  <div id="triviaQ" style="font-size:1.1rem;font-weight:700;margin:1rem 0"></div>
+  <div id="triviaOptions" style="display:grid;gap:.6rem"></div>
+  <div id="triviaFeedback" style="margin-top:1rem;font-weight:700;font-size:1rem"></div>
+  <button id="triviaNext" class="btn btn-primary hide" style="margin-top:1rem" onclick="nextTrivia()">Next Question →</button>
+  <div id="triviaResult" class="hide" style="text-align:center;padding:1rem">
+    <div style="font-size:3rem">🏆</div>
+    <h2 id="triviaFinalScore"></h2>
+    <p class="muted">Great job learning about pets!</p>
+    <button class="btn btn-primary" style="margin-top:1rem" onclick="startTrivia()">Play Again</button>
+  </div>
+</div>
+
+<!-- GUESS THE BREED GAME -->
+<div id="breedGame" class="card hide" style="margin-top:1.5rem;max-width:620px;margin-left:auto;margin-right:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h3>🐾 Guess the Breed</h3>
+    <button class="btn btn-secondary" onclick="closeGame('breedGame')" style="padding:.4rem .8rem;font-size:.8rem">✕ Close</button>
+  </div>
+  <div id="breedProgress" class="muted" style="margin:.5rem 0;font-size:.85rem"></div>
+  <div id="breedScore" class="muted" style="font-size:.85rem"></div>
+  <div id="breedEmoji" style="font-size:5rem;text-align:center;margin:1rem 0"></div>
+  <div id="breedClue" style="background:#FEF3C7;border-radius:12px;padding:1rem;font-size:.95rem;margin-bottom:1rem"></div>
+  <div id="breedOptions" style="display:grid;gap:.6rem"></div>
+  <div id="breedFeedback" style="margin-top:1rem;font-weight:700;font-size:1rem"></div>
+  <button id="breedNext" class="btn btn-primary hide" style="margin-top:1rem" onclick="nextBreed()">Next →</button>
+  <div id="breedResult" class="hide" style="text-align:center;padding:1rem">
+    <div style="font-size:3rem">🐾</div>
+    <h2 id="breedFinalScore"></h2>
+    <p class="muted">You're a breed expert!</p>
+    <button class="btn btn-primary" style="margin-top:1rem" onclick="startGuessBreed()">Play Again</button>
+  </div>
+</div>
+
+<!-- MATCH THE SYMPTOM GAME -->
+<div id="symptomGame" class="card hide" style="margin-top:1.5rem;max-width:620px;margin-left:auto;margin-right:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h3>🔍 Match the Symptom</h3>
+    <button class="btn btn-secondary" onclick="closeGame('symptomGame')" style="padding:.4rem .8rem;font-size:.8rem">✕ Close</button>
+  </div>
+  <div id="symptomProgress" class="muted" style="margin:.5rem 0;font-size:.85rem"></div>
+  <div id="symptomScore" class="muted" style="font-size:.85rem"></div>
+  <div id="symptomQ" style="font-size:1.05rem;font-weight:700;margin:1rem 0;background:#FEF3C7;padding:1rem;border-radius:12px"></div>
+  <div id="symptomOptions" style="display:grid;gap:.6rem"></div>
+  <div id="symptomFeedback" style="margin-top:1rem;font-weight:700;font-size:1rem"></div>
+  <button id="symptomNext" class="btn btn-primary hide" style="margin-top:1rem" onclick="nextSymptom()">Next →</button>
+  <div id="symptomResult" class="hide" style="text-align:center;padding:1rem">
+    <div style="font-size:3rem">🔍</div>
+    <h2 id="symptomFinalScore"></h2>
+    <p class="muted">You know your pet health!</p>
+    <button class="btn btn-primary" style="margin-top:1rem" onclick="startMatchSymptom()">Play Again</button>
+  </div>
+</div>
+
+</div>
+<div class="page" id="page-petbot"><h2>AI Pet Assistant</h2><p class="muted">Ask pet care questions and get general guidance.</p><div class="chatbox" id="chat"><div class="msg">🐾 Hi! I’m PetBot. How can I help your pet today?</div></div><div class="inputline"><input id="chatInput" placeholder="Ask PetBot anything..."><button class="btn btn-primary" onclick="sendChat()">Send</button></div><p class="muted">Guidance only. Consult a licensed veterinarian for medical decisions.</p></div>
+<div class="page" id="page-vetlocator"><h2>Vet Locator</h2><p class="muted">Find nearby clinics and services.</p><div class="map">🗺️<br><b>Interactive Map Preview</b><br><span class="muted">Clinic pins, distance, ratings, and directions</span></div><div class="grid2" style="margin-top:1rem"><div class="card"><h3>City Vet Clinic</h3><p class="muted">⭐ 4.8 · 1.2 km away</p><p>Check-up, Vaccination, Dental</p><button class="btn btn-primary" onclick="window.open('https://www.google.com/maps/search/veterinary+clinic+dasmarinas+cavite','_blank')">Get Directions</button></div><div class="card"><h3>PetCare Dasma</h3><p class="muted">⭐ 4.7 · 2.5 km away</p><p>Emergency, Surgery, Exotic Pets</p><button class="btn btn-primary" onclick="window.open('https://www.google.com/maps/search/petcare+dasmarinas+cavite','_blank')">Get Directions</button></div></div></div>
+<div class="page" id="page-admin"><h2>Admin Dashboard</h2><div class="grid3" style="margin-top:1rem"><div class="card"><p>Active Users</p><h2>248</h2></div><div class="card"><p>Feature Uses</p><h2>1,340</h2></div><div class="card"><p>Premium Users</p><h2>36</h2></div></div><div class="card" style="margin-top:1rem"><h3>User Management Table</h3><div class="row"><span>Irish — irish@email.com</span><span class="badge green">Active</span></div><div class="row"><span>Demo — demo@pawnitor.com</span><span class="badge blue">Premium</span></div></div><div class="card" style="margin-top:1rem"><h3>Notification Broadcaster</h3><textarea placeholder="Write notification..."></textarea><button class="btn btn-primary">Send Notification</button></div></div>
+<div class="page" id="page-settings"><h2>Settings & Subscription</h2><div class="grid2" style="margin-top:1rem">
+
+<div class="card"><h3>Theme Switcher</h3>
+  <button class="btn btn-secondary" id="themeBtn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  <p class="muted" style="margin-top:.6rem;font-size:.82rem" id="themeStatus">Currently: Light Mode</p>
+</div>
+
+<div class="card"><h3>Notification Preferences</h3>
+  <div class="row"><span>Vaccination reminders</span>
+    <input type="checkbox" checked id="notifVaccine" onchange="showNotifSaved()">
+  </div>
+  <div class="row"><span>Medication reminders</span>
+    <input type="checkbox" checked id="notifMed" onchange="showNotifSaved()">
+  </div>
+  <p class="muted" id="notifSaved" style="font-size:.82rem;margin-top:.5rem;display:none;color:#059669">✅ Preferences saved!</p>
+</div>
+
+<div class="card"><h3>Free</h3><p>Basic tracking and reminders.</p>
+  <button class="btn btn-secondary" onclick="alert('✅ You are currently on the Free plan.')">Current Plan</button>
+</div>
+
+<div class="card" style="border-color:var(--amber)"><h3>Premium</h3>
+  <p>Premium themes, chat history, smart notifications.</p>
+  <button class="btn btn-primary" onclick="document.getElementById('upgradeModal').classList.remove('hide')">Upgrade</button>
+</div>
+
+</div></div>`}
+function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',pageNames[i]===p));scrollTo(0,0)}
+function sendChat(){
+  if(!chatInput.value)return;
+  const q=chatInput.value.toLowerCase();
+  const userMsg=chatInput.value.replace(/</g,"&lt;");
+  let reply="🐾 That's a great question! Monitor your pet closely, keep them comfortable and hydrated, and consult a licensed veterinarian if symptoms persist or worsen.";
+  if(q.includes("food")||q.includes("eat")||q.includes("diet")||q.includes("nutrition"))
+    reply="🐾 A balanced diet is key! Dogs and cats need protein-rich food. Avoid onions, garlic, grapes, chocolate, and xylitol. Always provide fresh water. Ask your vet for breed-specific recommendations.";
+  else if(q.includes("vaccine")||q.includes("vaccin"))
+    reply="🐾 Vaccines are essential! Core vaccines for dogs include Rabies, Distemper, and Parvovirus. For cats: Rabies and FVRCP. Puppies/kittens need a series starting at 6–8 weeks. Consult your vet for a schedule.";
+  else if(q.includes("groom")||q.includes("bath")||q.includes("brush"))
+    reply="🐾 Grooming keeps your pet healthy! Brush dogs 2–3x/week. Bathe every 4–6 weeks or when dirty. Clean ears monthly. Trim nails every 3–4 weeks. Cats generally groom themselves but long-haired breeds need brushing.";
+  else if(q.includes("vomit")||q.includes("sick")||q.includes("symptom")||q.includes("ill"))
+    reply="🐾 If your pet is vomiting, watch for frequency. Once or twice may be normal. But if it continues for more than 24 hours, has blood, or is paired with lethargy — visit a vet immediately.";
+  else if(q.includes("behav")||q.includes("aggress")||q.includes("bark")||q.includes("bite"))
+    reply="🐾 Behavioral issues are often linked to stress, fear, or lack of socialization. Positive reinforcement training works best. Avoid punishment. If aggression is severe, consult a certified animal behaviorist.";
+  else if(q.includes("flea")||q.includes("tick")||q.includes("worm")||q.includes("parasite"))
+    reply="🐾 Parasites are common! Use vet-recommended monthly flea/tick treatments. Deworm puppies every 2 weeks until 3 months, then monthly. Adult dogs and cats should be dewormed every 3–6 months.";
+  else if(q.includes("rabbit")||q.includes("bunny"))
+    reply="🐾 Rabbits need unlimited hay (Timothy), fresh leafy greens, and clean water. Avoid sugary treats. They need at least 3 hours of exercise daily. Spaying/neutering reduces health risks significantly.";
+  else if(q.includes("cat"))
+    reply="🐾 Cats are independent but need care! Provide fresh water (cats prefer fountains), high-protein food, a clean litter box, and enrichment toys. Watch for changes in litter box habits — it often signals health issues.";
+  else if(q.includes("dog"))
+    reply="🐾 Dogs thrive with routine! Feed 2x daily, walk at least 30 mins/day, and schedule annual vet checkups. Watch for limping, excessive scratching, or changes in appetite — these may need vet attention.";
+  chat.innerHTML+=`<div class="msg user">${userMsg}</div><div class="msg">${reply}</div>`;
+  chatInput.value='';chat.scrollTop=chat.scrollHeight;
+}
+
+
+function openContactModal(){ document.getElementById('contactModal').classList.remove('hide'); }
+function openTermsModal(){ document.getElementById('termsModal').classList.remove('hide'); }
+
+function openGoogleModal(){ document.getElementById('googleModal').classList.remove('hide'); }
+function openFbModal(){ document.getElementById('fbModal').classList.remove('hide'); }
+function socialLogin(provider){isAdmin=false;
+  const email = provider==='google' ? document.getElementById('gEmail').value : document.getElementById('fbEmail').value;
+  const pass = provider==='google' ? document.getElementById('gPass').value : document.getElementById('fbPass').value;
+  if(!email||!pass){ alert('Please fill in all fields.'); return; }
+  document.getElementById(provider==='google'?'googleModal':'fbModal').classList.add('hide');
+  localStorage.setItem('pawnitorCurrent', email);
+  enterApp();
+}
+
+
+// ===== TRIVIA GAME =====
+const triviaData = [
+  {q:"What is the normal body temperature of a dog?",options:["35–36°C","37–39°C","40–42°C","33–34°C"],ans:1},
+  {q:"How many teeth does an adult dog have?",options:["28","32","42","36"],ans:2},
+  {q:"Which fruit is TOXIC to dogs?",options:["Watermelon","Grapes","Mango","Banana"],ans:1},
+  {q:"How long is a cat's average gestation period?",options:["30 days","45 days","63 days","90 days"],ans:2},
+  {q:"What animal is known as man's best friend?",options:["Cat","Rabbit","Dog","Hamster"],ans:2},
+  {q:"Which of these is NOT a sign of dehydration in pets?",options:["Dry gums","Sunken eyes","Wagging tail","Lethargy"],ans:2},
+  {q:"How often should you bathe a healthy indoor cat?",options:["Daily","Weekly","Rarely — cats groom themselves","Monthly"],ans:2},
+  {q:"What is the lifespan of a rabbit on average?",options:["1–2 years","5–8 years","8–12 years","15–20 years"],ans:2},
+  {q:"Which vitamin is essential for a dog's bone health?",options:["Vitamin C","Vitamin D","Vitamin K","Vitamin B12"],ans:1},
+  {q:"What is heartworm disease transmitted by?",options:["Fleas","Ticks","Mosquitoes","Flies"],ans:2}
+];
+let tIdx=0, tScore=0;
+function startTrivia(){
+  tIdx=0; tScore=0;
+  document.getElementById('triviaResult').classList.add('hide');
+  document.getElementById('triviaGame').classList.remove('hide');
+  document.getElementById('gameMenu').style.opacity='.4';
+  renderTrivia();
+}
+function renderTrivia(){
+  const d=triviaData[tIdx];
+  document.getElementById('triviaProgress').textContent=`Question ${tIdx+1} of ${triviaData.length}`;
+  document.getElementById('triviaScore').textContent=`Score: ${tScore}`;
+  document.getElementById('triviaQ').textContent=d.q;
+  document.getElementById('triviaFeedback').textContent='';
+  document.getElementById('triviaNext').classList.add('hide');
+  document.getElementById('triviaOptions').innerHTML=d.options.map((o,i)=>
+    `<button class="btn btn-secondary" style="text-align:left;padding:.75rem 1rem" onclick="answerTrivia(${i})">${o}</button>`
+  ).join('');
+}
+function answerTrivia(i){
+  const d=triviaData[tIdx];
+  const btns=document.getElementById('triviaOptions').querySelectorAll('button');
+  btns.forEach((b,idx)=>{b.disabled=true;if(idx===d.ans)b.style.background='#ECFDF5';if(idx===i&&i!==d.ans)b.style.background='#FEF2F2';});
+  if(i===d.ans){tScore++;document.getElementById('triviaFeedback').innerHTML='<span style="color:#059669">✅ Correct!</span>';}
+  else{document.getElementById('triviaFeedback').innerHTML=`<span style="color:#DC2626">❌ Wrong! Answer: ${d.options[d.ans]}</span>`;}
+  document.getElementById('triviaNext').classList.remove('hide');
+}
+function nextTrivia(){
+  tIdx++;
+  if(tIdx>=triviaData.length){
+    document.getElementById('triviaFinalScore').textContent=`You scored ${tScore}/${triviaData.length}!`;
+    document.getElementById('triviaOptions').innerHTML='';
+    document.getElementById('triviaQ').textContent='';
+    document.getElementById('triviaFeedback').textContent='';
+    document.getElementById('triviaNext').classList.add('hide');
+    document.getElementById('triviaProgress').textContent='Game Over!';
+    document.getElementById('triviaResult').classList.remove('hide');
+  } else { renderTrivia(); }
+}
+
+// ===== GUESS THE BREED GAME =====
+const breedData = [
+  {emoji:"🐕",clue:"This fluffy dog from the Philippines is loyal, medium-sized, and known as the 'Asong Pinoy'. Often seen in neighborhoods.",options:["Labrador","Aspin","Shih Tzu","Poodle"],ans:1},
+  {emoji:"🐈",clue:"A flat-faced cat with long silky fur, often called 'furniture with fur'. Very calm and affectionate.",options:["Siamese","Bengal","Persian","Maine Coon"],ans:2},
+  {emoji:"🐰",clue:"A small rabbit with floppy ears that fold downward. Very gentle and popular as a house pet.",options:["Angora","Rex","Holland Lop","Flemish Giant"],ans:2},
+  {emoji:"🦜",clue:"A small, colorful parrot that can mimic human speech and is one of the most popular pet birds in the world.",options:["Cockatiel","African Grey","Budgerigar","Lovebird"],ans:2},
+  {emoji:"🐕",clue:"A large, golden-coated dog known for being friendly, patient, and excellent with children. Often used as therapy dogs.",options:["Labrador Retriever","Golden Retriever","Husky","Beagle"],ans:1},
+  {emoji:"🐈",clue:"A sleek cat with large ears, blue almond-shaped eyes, and a cream-colored body with dark points on face and paws.",options:["Persian","Ragdoll","Siamese","Burmese"],ans:2},
+  {emoji:"🐹",clue:"A tiny, chubby rodent with large cheek pouches used to store food. Very popular kids' pet.",options:["Gerbil","Guinea Pig","Hamster","Chinchilla"],ans:2},
+  {emoji:"🦎",clue:"A colorful lizard native to Central America that changes color based on mood. Popular exotic pet.",options:["Gecko","Iguana","Chameleon","Skink"],ans:2},
+];
+let bIdx=0, bScore=0;
+function startGuessBreed(){
+  bIdx=0; bScore=0;
+  document.getElementById('breedResult').classList.add('hide');
+  document.getElementById('breedGame').classList.remove('hide');
+  document.getElementById('gameMenu').style.opacity='.4';
+  renderBreed();
+}
+function renderBreed(){
+  const d=breedData[bIdx];
+  document.getElementById('breedProgress').textContent=`Question ${bIdx+1} of ${breedData.length}`;
+  document.getElementById('breedScore').textContent=`Score: ${bScore}`;
+  document.getElementById('breedEmoji').textContent=d.emoji;
+  document.getElementById('breedClue').textContent='🔎 Clue: '+d.clue;
+  document.getElementById('breedFeedback').textContent='';
+  document.getElementById('breedNext').classList.add('hide');
+  document.getElementById('breedOptions').innerHTML=d.options.map((o,i)=>
+    `<button class="btn btn-secondary" style="text-align:left;padding:.75rem 1rem" onclick="answerBreed(${i})">${o}</button>`
+  ).join('');
+}
+function answerBreed(i){
+  const d=breedData[bIdx];
+  const btns=document.getElementById('breedOptions').querySelectorAll('button');
+  btns.forEach((b,idx)=>{b.disabled=true;if(idx===d.ans)b.style.background='#ECFDF5';if(idx===i&&i!==d.ans)b.style.background='#FEF2F2';});
+  if(i===d.ans){bScore++;document.getElementById('breedFeedback').innerHTML='<span style="color:#059669">✅ Correct!</span>';}
+  else{document.getElementById('breedFeedback').innerHTML=`<span style="color:#DC2626">❌ Wrong! Answer: ${d.options[d.ans]}</span>`;}
+  document.getElementById('breedNext').classList.remove('hide');
+}
+function nextBreed(){
+  bIdx++;
+  if(bIdx>=breedData.length){
+    document.getElementById('breedFinalScore').textContent=`You scored ${bScore}/${breedData.length}!`;
+    document.getElementById('breedOptions').innerHTML='';
+    document.getElementById('breedEmoji').textContent='🏆';
+    document.getElementById('breedClue').textContent='';
+    document.getElementById('breedFeedback').textContent='';
+    document.getElementById('breedNext').classList.add('hide');
+    document.getElementById('breedProgress').textContent='Game Over!';
+    document.getElementById('breedResult').classList.remove('hide');
+  } else { renderBreed(); }
+}
+
+// ===== MATCH THE SYMPTOM GAME =====
+const symptomData = [
+  {q:"Your dog is scratching excessively, has red skin, and keeps licking its paws. What is this most likely?",options:["Rabies","Allergies or skin irritation","Distemper","Worms"],ans:1},
+  {q:"Your cat has been vomiting repeatedly, is lethargic, and refuses to eat for 2 days. What should you do?",options:["Give more food","Wait another week","Visit the vet immediately","Give human medicine"],ans:2},
+  {q:"Your rabbit is grinding its teeth loudly and appears hunched. This may indicate:",options:["Happiness","Pain or discomfort","Hunger","Boredom"],ans:1},
+  {q:"A dog with pale gums, weakness, and rapid breathing may be experiencing:",options:["Excitement","Anemia or internal bleeding","Common cold","Overeating"],ans:1},
+  {q:"Your bird is fluffed up, sitting at the bottom of the cage, and not eating. This is a sign of:",options:["Sleepiness","Illness — needs vet attention","Molting","Playing"],ans:1},
+  {q:"Your pet fish is swimming upside down or sideways. This is likely:",options:["Normal behavior","Swim bladder disorder","Just playing","Hunger"],ans:1},
+  {q:"A dog that suddenly collapses, has muscle spasms, and loses consciousness may be having:",options:["A nap","A seizure","A tantrum","Hiccups"],ans:1},
+  {q:"Your hamster's eyes are crusty and it has nasal discharge. This could indicate:",options:["Old age","A respiratory infection","Overeating","Teething"],ans:1},
+];
+let sIdx=0, sScore=0;
+function startMatchSymptom(){
+  sIdx=0; sScore=0;
+  document.getElementById('symptomResult').classList.add('hide');
+  document.getElementById('symptomGame').classList.remove('hide');
+  document.getElementById('gameMenu').style.opacity='.4';
+  renderSymptom();
+}
+function renderSymptom(){
+  const d=symptomData[sIdx];
+  document.getElementById('symptomProgress').textContent=`Question ${sIdx+1} of ${symptomData.length}`;
+  document.getElementById('symptomScore').textContent=`Score: ${sScore}`;
+  document.getElementById('symptomQ').textContent=d.q;
+  document.getElementById('symptomFeedback').textContent='';
+  document.getElementById('symptomNext').classList.add('hide');
+  document.getElementById('symptomOptions').innerHTML=d.options.map((o,i)=>
+    `<button class="btn btn-secondary" style="text-align:left;padding:.75rem 1rem" onclick="answerSymptom(${i})">${o}</button>`
+  ).join('');
+}
+function answerSymptom(i){
+  const d=symptomData[sIdx];
+  const btns=document.getElementById('symptomOptions').querySelectorAll('button');
+  btns.forEach((b,idx)=>{b.disabled=true;if(idx===d.ans)b.style.background='#ECFDF5';if(idx===i&&i!==d.ans)b.style.background='#FEF2F2';});
+  if(i===d.ans){sScore++;document.getElementById('symptomFeedback').innerHTML='<span style="color:#059669">✅ Correct!</span>';}
+  else{document.getElementById('symptomFeedback').innerHTML=`<span style="color:#DC2626">❌ Wrong! Answer: ${d.options[d.ans]}</span>`;}
+  document.getElementById('symptomNext').classList.remove('hide');
+}
+function nextSymptom(){
+  sIdx++;
+  if(sIdx>=symptomData.length){
+    document.getElementById('symptomFinalScore').textContent=`You scored ${sScore}/${symptomData.length}!`;
+    document.getElementById('symptomOptions').innerHTML='';
+    document.getElementById('symptomQ').textContent='';
+    document.getElementById('symptomFeedback').textContent='';
+    document.getElementById('symptomNext').classList.add('hide');
+    document.getElementById('symptomProgress').textContent='Game Over!';
+    document.getElementById('symptomResult').classList.remove('hide');
+  } else { renderSymptom(); }
+}
+
+function closeGame(id){
+  document.getElementById(id).classList.add('hide');
+  document.getElementById('gameMenu').style.opacity='1';
+}
+
+
+// Symptom Checker
+const scData={};
+function scAnswer(key,val){
+  scData[key]=val;
+  if(key==='pet'){document.getElementById('scStep1').classList.add('hide');document.getElementById('scStep2').classList.remove('hide');}
+  else if(key==='symptom'){document.getElementById('scStep2').classList.add('hide');document.getElementById('scStep3').classList.remove('hide');}
+  else if(key==='duration'){
+    document.getElementById('scStep3').classList.add('hide');
+    const urgent=scData.duration==='More than 3 days'||scData.symptom==='Lethargy / weakness'||scData.symptom==='Vomiting';
+    const res=document.getElementById('scResult');
+    res.classList.remove('hide');
+    res.style.background=urgent?'#FEF2F2':'#ECFDF5';
+    res.innerHTML=urgent
+      ?`<b style="color:#DC2626">⚠️ Urgent — Visit a Vet</b><p style="margin-top:.5rem;font-size:.9rem">${scData.pet} has been showing <b>${scData.symptom}</b> for <b>${scData.duration}</b>. This may need immediate veterinary attention. Please contact your vet or visit the nearest clinic.</p>`
+      :`<b style="color:#059669">✅ Monitor at Home</b><p style="margin-top:.5rem;font-size:.9rem">${scData.pet} has been showing <b>${scData.symptom}</b> for <b>${scData.duration}</b>. Keep your pet comfortable and hydrated. If symptoms worsen or persist beyond 48 hours, consult a vet.</p>`;
+    document.getElementById('scRestart').classList.remove('hide');
+  }
+}
+function resetSymptomChecker(){
+  ['scStep1','scStep2','scStep3'].forEach(id=>{document.getElementById(id).classList.remove('hide');});
+  document.getElementById('scStep2').classList.add('hide');
+  document.getElementById('scStep3').classList.add('hide');
+  document.getElementById('scResult').classList.add('hide');
+  document.getElementById('scRestart').classList.add('hide');
+}
+function saveMedication(){
+  const pet=document.getElementById('medPet').value;
+  const name=document.getElementById('medName').value;
+  const dose=document.getElementById('medDose').value;
+  const time=document.getElementById('medTime').value;
+  if(!pet||!name||!dose||!time){alert('Please fill in all fields.');return;}
+  document.getElementById('addMedModal').classList.add('hide');
+  alert(`✅ Medication saved!\n\n${pet} — ${name}\nDose: ${dose}\nSchedule: ${time}`);
+  document.getElementById('medPet').value='';document.getElementById('medName').value='';
+  document.getElementById('medDose').value='';document.getElementById('medTime').value='';
+}
+
+
+let isDark = false;
+function toggleDarkMode(){
+  isDark = !isDark;
+  document.body.classList.toggle("theme", isDark);
+  document.body.classList.toggle("dark", isDark);
+  document.getElementById("themeBtn").textContent = isDark ? "☀️ Toggle Light Mode" : "🌙 Toggle Dark Mode";
+  document.getElementById("themeStatus").textContent = isDark ? "Currently: Dark Mode" : "Currently: Light Mode";
+}
+function showNotifSaved(){
+  const el = document.getElementById("notifSaved");
+  el.style.display = "block";
+  setTimeout(()=>el.style.display="none", 2000);
+}
+
+if(localStorage.getItem('pawnitorCurrent')) enterApp();
+</script>
+<!-- Google Login Modal -->
+<div id="googleModal" class="modal-overlay hide">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('googleModal').classList.add('hide')">✕</button>
+    <div class="modal-logo">
+      <svg width="28" height="28" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      <span>Sign in with Google</span>
+    </div>
+    <p style="font-size:.9rem;color:#555;margin-bottom:1rem">Use your Google Account</p>
+    <input class="modal-field" id="gEmail" type="email" placeholder="Email or phone">
+    <input class="modal-field" id="gPass" type="password" placeholder="Password">
+    <button class="modal-submit" style="background:#4285F4" onclick="socialLogin('google')">Next</button>
+    <div class="modal-footer">By continuing, you agree to PAWNITOR's Terms of Service</div>
+  </div>
+</div>
+
+<!-- Facebook Login Modal -->
+<div id="fbModal" class="modal-overlay hide">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('fbModal').classList.add('hide')">✕</button>
+    <div class="modal-logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+      <span style="color:#1877F2">Log in with Facebook</span>
+    </div>
+    <p style="font-size:.9rem;color:#555;margin-bottom:1rem">Enter your Facebook credentials</p>
+    <input class="modal-field" id="fbEmail" type="email" placeholder="Email or phone number">
+    <input class="modal-field" id="fbPass" type="password" placeholder="Password">
+    <button class="modal-submit" style="background:#1877F2" onclick="socialLogin('facebook')">Log In</button>
+    <div class="modal-footer">By continuing, you agree to PAWNITOR's Terms of Service</div>
+  </div>
+</div>
+
+<!-- Contact Modal -->
+<div id="contactModal" class="modal-overlay hide">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="document.getElementById('contactModal').classList.add('hide')">✕</button>
+    <div class="modal-logo">
+      <span>📬 Contact Us</span>
+    </div>
+    <p style="font-size:.9rem;color:#555;margin-bottom:1rem">Have questions? Reach out to the PAWNITOR team.</p>
+    <div style="background:#F9F5EE;border-radius:12px;padding:1rem;font-size:.9rem;line-height:2">
+      <div>📧 <b>Email:</b> support@pawnitor.com</div>
+      <div>📱 <b>Phone:</b> +63 917 123 4567</div>
+      <div>🏢 <b>Address:</b> Dasmariñas, Cavite, Philippines</div>
+      <div>🕐 <b>Support Hours:</b> Mon–Fri, 8AM–6PM PHT</div>
+    </div>
+    <div style="margin-top:1rem;background:#EFF6FF;border-radius:12px;padding:1rem;font-size:.85rem;color:#555">
+      💬 You can also chat with us via our Facebook Page <b>@PAWNITOR</b> or email us directly and we'll respond within 24 hours.
+    </div>
+    <button class="modal-submit" style="background:linear-gradient(135deg,#D97706,#EA580C);margin-top:1rem" onclick="document.getElementById('contactModal').classList.add('hide')">Got it!</button>
+  </div>
+</div>
+
+<!-- Terms & Conditions Modal -->
+<div id="termsModal" class="modal-overlay hide">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="document.getElementById('termsModal').classList.add('hide')">✕</button>
+    <div class="modal-logo">
+      <span>📄 Terms & Conditions</span>
+    </div>
+    <div class="terms-body">
+      <h4>1. Acceptance of Terms</h4>
+      By using PAWNITOR, you agree to these Terms and Conditions. If you do not agree, please do not use the platform.
+      <h4>2. Use of Service</h4>
+      PAWNITOR is intended for personal, non-commercial use to help Filipino pet owners manage their pets' health and wellness records.
+      <h4>3. Health Disclaimer</h4>
+      Information provided by PetBot and the Symptom Checker is for general guidance only and does not replace professional veterinary advice. Always consult a licensed veterinarian for medical decisions.
+      <h4>4. User Accounts</h4>
+      You are responsible for maintaining the confidentiality of your account credentials. PAWNITOR is not liable for unauthorized access resulting from your failure to secure your account.
+      <h4>5. Privacy</h4>
+      We collect only the information necessary to provide our services. Your data will never be sold to third parties. Please refer to our Privacy Policy for full details.
+      <h4>6. Limitation of Liability</h4>
+      PAWNITOR shall not be held liable for any damages resulting from the use or inability to use the service.
+      <h4>7. Changes to Terms</h4>
+      We reserve the right to update these terms at any time. Continued use of PAWNITOR after changes constitutes acceptance of the new terms.
+      <h4>8. Contact</h4>
+      For questions about these terms, contact us at support@pawnitor.com.
+    </div>
+    <button class="modal-submit" style="background:linear-gradient(135deg,#D97706,#EA580C)" onclick="document.getElementById('termsModal').classList.add('hide')">I Understand</button>
+  </div>
+</div>
+
+<!-- Symptom Checker Modal -->
+<div id="symptomCheckerModal" class="modal-overlay hide">
+  <div class="modal-box wide" style="max-width:500px">
+    <button class="modal-close" onclick="document.getElementById('symptomCheckerModal').classList.add('hide');resetSymptomChecker()">✕</button>
+    <div class="modal-logo"><span>🔍 Symptom Checker</span></div>
+    <p style="font-size:.9rem;color:#555;margin-bottom:1rem">Answer the questions to check your pet's condition.</p>
+    <div id="scStep1">
+      <p style="font-weight:600">1. Which pet are you checking?</p>
+      <div style="display:grid;gap:.5rem;margin-top:.5rem">
+        <button class="btn btn-secondary" onclick="scAnswer('pet','Mochi 🐰')">Mochi 🐰</button>
+        <button class="btn btn-secondary" onclick="scAnswer('pet','Bruno 🐕')">Bruno 🐕</button>
+      </div>
+    </div>
+    <div id="scStep2" class="hide">
+      <p style="font-weight:600">2. What symptom is your pet showing?</p>
+      <div style="display:grid;gap:.5rem;margin-top:.5rem">
+        <button class="btn btn-secondary" onclick="scAnswer('symptom','Vomiting')">Vomiting</button>
+        <button class="btn btn-secondary" onclick="scAnswer('symptom','Not eating')">Not eating</button>
+        <button class="btn btn-secondary" onclick="scAnswer('symptom','Lethargy / weakness')">Lethargy / weakness</button>
+        <button class="btn btn-secondary" onclick="scAnswer('symptom','Scratching / skin issues')">Scratching / skin issues</button>
+        <button class="btn btn-secondary" onclick="scAnswer('symptom','Diarrhea')">Diarrhea</button>
+        <button class="btn btn-secondary" onclick="scAnswer('symptom','Coughing / sneezing')">Coughing / sneezing</button>
+      </div>
+    </div>
+    <div id="scStep3" class="hide">
+      <p style="font-weight:600">3. How long has this been going on?</p>
+      <div style="display:grid;gap:.5rem;margin-top:.5rem">
+        <button class="btn btn-secondary" onclick="scAnswer('duration','Less than 24 hours')">Less than 24 hours</button>
+        <button class="btn btn-secondary" onclick="scAnswer('duration','1–2 days')">1–2 days</button>
+        <button class="btn btn-secondary" onclick="scAnswer('duration','More than 3 days')">More than 3 days</button>
+      </div>
+    </div>
+    <div id="scResult" class="hide" style="margin-top:1rem;padding:1rem;border-radius:12px"></div>
+    <button id="scRestart" class="btn btn-secondary hide" style="margin-top:.8rem;width:100%" onclick="resetSymptomChecker()">Check Another Pet</button>
+  </div>
+</div>
+
+<!-- Add Medication Modal -->
+<div id="addMedModal" class="modal-overlay hide">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="document.getElementById('addMedModal').classList.add('hide')">✕</button>
+    <div class="modal-logo"><span>💊 Add Medication</span></div>
+    <input class="modal-field" id="medPet" placeholder="Pet name (e.g. Bruno)">
+    <input class="modal-field" id="medName" placeholder="Medication name (e.g. Vitamins)">
+    <input class="modal-field" id="medDose" placeholder="Dosage (e.g. 1 tablet)">
+    <input class="modal-field" id="medTime" placeholder="Schedule (e.g. Every morning)">
+    <button class="modal-submit" style="background:linear-gradient(135deg,#D97706,#EA580C)" onclick="saveMedication()">Save Medication</button>
+  </div>
+</div>
+
+<!-- Vaccination Calendar Modal -->
+<div id="vaccineModal" class="modal-overlay hide">
+  <div class="modal-box wide" style="max-width:480px">
+    <button class="modal-close" onclick="document.getElementById('vaccineModal').classList.add('hide')">✕</button>
+    <div class="modal-logo"><span>💉 Vaccination Reminders</span></div>
+    <div style="background:#F9F5EE;border-radius:12px;padding:1rem;font-size:.9rem">
+      <div class="row"><span><b>Bruno</b> — Rabies Booster</span><span class="badge red">Overdue</span></div>
+      <div class="row"><span><b>Bruno</b> — Deworming</span><span class="badge amber">May 5</span></div>
+      <div class="row"><span><b>Mochi</b> — Vaccine Booster</span><span class="badge blue">14 days</span></div>
+      <div class="row"><span><b>Mochi</b> — Check-up</span><span class="badge green">Done ✓</span></div>
+    </div>
+    <button class="modal-submit" style="background:linear-gradient(135deg,#D97706,#EA580C);margin-top:1rem" onclick="document.getElementById('vaccineModal').classList.add('hide')">Got it!</button>
+  </div>
+</div>
+
+<!-- Upload Record Modal -->
+<div id="uploadRecordModal" class="modal-overlay hide">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="document.getElementById('uploadRecordModal').classList.add('hide')">✕</button>
+    <div class="modal-logo"><span>📁 Upload Medical Record</span></div>
+    <input class="modal-field" placeholder="Record type (e.g. Vaccine certificate)">
+    <input class="modal-field" placeholder="Date of record (e.g. Jan 10, 2025)">
+    <input class="modal-field" placeholder="Attending vet / clinic name">
+    <input class="modal-field" type="file" accept=".pdf,.jpg,.png" style="padding:.6rem">
+    <button class="modal-submit" style="background:linear-gradient(135deg,#D97706,#EA580C)" onclick="document.getElementById('uploadRecordModal').classList.add('hide');alert('✅ Record uploaded successfully!')">Upload Record</button>
+  </div>
+</div>
+
+<!-- Upgrade Modal -->
+<div id="upgradeModal" class="modal-overlay hide">
+  <div class="modal-box wide" style="max-width:560px;text-align:center">
+    <button class="modal-close" onclick="document.getElementById('upgradeModal').classList.add('hide')">✕</button>
+    <div style="font-size:2.5rem">⭐</div>
+    <h2 style="margin:.4rem 0">Choose Your Plan</h2>
+    <p class="muted" style="margin-bottom:1.2rem">Upgrade anytime and unlock more for your pets!</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;text-align:left">
+
+      <!-- Free -->
+      <div style="border:2px solid #E8DFD0;border-radius:14px;padding:1rem">
+        <p style="font-weight:800;font-size:1rem">Free</p>
+        <p style="font-size:1.5rem;font-weight:800;color:#888">₱0</p>
+        <p class="muted" style="font-size:.8rem;margin-bottom:.8rem">Current Plan</p>
+        <div style="font-size:.82rem;line-height:2;color:#555">
+          ✅ 1 pet<br>
+          ✅ Basic health tracking<br>
+          ✅ Medication reminders<br>
+          ✅ PetBot (limited)<br>
+          ❌ Chat history<br>
+          ❌ Premium themes
+        </div>
+        <button class="btn btn-secondary" style="width:100%;margin-top:.8rem;font-size:.85rem" onclick="document.getElementById('upgradeModal').classList.add('hide');alert('✅ You are already on the Free plan.')">Current Plan</button>
+      </div>
+
+      <!-- Plus -->
+      <div style="border:2px solid var(--amber);border-radius:14px;padding:1rem;background:#FFFBF0;position:relative">
+        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--amber);color:#fff;font-size:.72rem;font-weight:800;padding:.2rem .7rem;border-radius:999px">POPULAR</div>
+        <p style="font-weight:800;font-size:1rem">Plus</p>
+        <p style="font-size:1.5rem;font-weight:800;color:var(--amber)">₱99</p>
+        <p class="muted" style="font-size:.8rem;margin-bottom:.8rem">per month</p>
+        <div style="font-size:.82rem;line-height:2;color:#555">
+          ✅ Up to 3 pets<br>
+          ✅ Full health tracking<br>
+          ✅ Smart notifications<br>
+          ✅ PetBot chat history<br>
+          ✅ Premium themes<br>
+          ❌ Unlimited pets
+        </div>
+        <button class="modal-submit" style="background:linear-gradient(135deg,#D97706,#EA580C);margin-top:.8rem;font-size:.85rem" onclick="document.getElementById('upgradeModal').classList.add('hide');alert('🎉 Thank you for choosing Plus! Payment coming soon.')">Get Plus</button>
+      </div>
+
+      <!-- Pro -->
+      <div style="border:2px solid var(--dark);border-radius:14px;padding:1rem;background:linear-gradient(135deg,#6B4423,#4A2C1A);color:#fff">
+        <p style="font-weight:800;font-size:1rem">Pro</p>
+        <p style="font-size:1.5rem;font-weight:800;color:#FFD97D">₱199</p>
+        <p style="font-size:.8rem;margin-bottom:.8rem;opacity:.7">per month</p>
+        <div style="font-size:.82rem;line-height:2;opacity:.9">
+          ✅ Unlimited pets<br>
+          ✅ All Plus features<br>
+          ✅ Advanced analytics<br>
+          ✅ Priority vet locator<br>
+          ✅ Early access features<br>
+          ✅ VIP support
+        </div>
+        <button class="modal-submit" style="background:#FFD97D;color:#4A2C1A;margin-top:.8rem;font-size:.85rem" onclick="document.getElementById('upgradeModal').classList.add('hide');alert('🎉 Thank you for choosing Pro! Payment coming soon.')">Get Pro</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== PWA INSTALL BANNER ===== -->
+<div id="installBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#D97706,#EA580C);color:#fff;padding:1rem 1.2rem;z-index:9999;align-items:center;justify-content:space-between;gap:1rem;box-shadow:0 -4px 20px rgba(0,0,0,.2)">
+  <div>
+    <b>🐾 I-install ang PAWNITOR!</b><br>
+    <span style="font-size:.85rem;opacity:.9">I-download bilang app sa iyong phone o computer.</span>
+  </div>
+  <div style="display:flex;gap:.6rem;flex-shrink:0">
+    <button onclick="installApp()" style="background:#fff;color:#D97706;border:none;border-radius:10px;padding:.6rem 1.1rem;font-weight:800;cursor:pointer">⬇️ I-install</button>
+    <button onclick="document.getElementById('installBanner').style.display='none'" style="background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:10px;padding:.6rem .9rem;cursor:pointer">✕</button>
+  </div>
+</div>
+
+<!-- ===== PWA SERVICE WORKER ===== -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/PAWNITOR-/service-worker.js')
+      .then(reg => console.log('✅ PAWNITOR PWA ready:', reg.scope))
+      .catch(err => console.log('❌ SW error:', err));
+  });
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBanner').style.display = 'flex';
+  });
+  window.addEventListener('appinstalled', () => {
+    document.getElementById('installBanner').style.display = 'none';
+    deferredPrompt = null;
+  });
+  window.installApp = function() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+        document.getElementById('installBanner').style.display = 'none';
+      });
+    }
+  };
+}
+</script>
+
+</body></html>
